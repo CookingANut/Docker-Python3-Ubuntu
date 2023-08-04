@@ -42,9 +42,14 @@ RUN apt-get -qq -y update && \
     apt-get -y autoremove && \
     rm -rf /var/lib/apt/lists/*
 
-COPY install_python.sh install_python.sh
+COPY install_python.sh install_python.sh 
+COPY autochain-6.2.3-py3-none-any.whl autochain-6.2.3-py3-none-any.whl
+COPY dmutil-5.0.2.tar.gz dmutil-5.0.2.tar.gz
 RUN bash install_python.sh ${PYTHON_VERSION_TAG} ${LINK_PYTHON_TO_PYTHON3} && \
     rm -r install_python.sh Python-${PYTHON_VERSION_TAG}
+
+RUN pip install autochain-6.2.3-py3-none-any.whl && rm autochain-6.2.3-py3-none-any.whl
+RUN pip install dmutil-5.0.2.tar.gz && rm dmutil-5.0.2.tar.gz
 
 # Enable tab completion by uncommenting it from /etc/bash.bashrc
 # The relevant lines are those below the phrase "enable bash completion in interactive shells"
